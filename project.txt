@@ -1,0 +1,50 @@
+gs-sparse-view/
+│
+├── README.md                    [0]
+├── requirements.txt             [0]
+├── environment.yml              [0]
+│
+├── external/                    [1]
+│   └── gaussian-splatting/      [1]
+│
+├── data/
+│   ├── raw/                     [2]
+│   │   └── lego/                [2]
+│   └── splits/                  [4]
+│       ├── 3_views/             [4]
+│       ├── 5_views/             [4]
+│       ├── 10_views/            [4]
+│       └── 20_views/            [4]
+│
+├── configs/                     [3]
+│   ├── base.yaml                [3]
+│   ├── views_3.yaml             [5]
+│   ├── views_5.yaml             [5]
+│   ├── views_10.yaml            [5]
+│   └── views_20.yaml            [5]
+│
+├── scripts/
+│   ├── 01_subset_views.py       [4]
+│   ├── 02_train.py              [2]
+│   ├── 03_evaluate.py           [2]
+│   ├── 04_run_experiment.py     [5]
+│   └── 05_aggregate_results.py  [6]
+│
+├── experiments/                 [2]
+│   ├── lego/
+│   │   ├── full/                [2]
+│   │   ├── 3_views/             [5]
+│   │   ├── 5_views/             [5]
+│   │   ├── 10_views/            [5]
+│   │   └── 20_views/            [5]
+│
+├── results/                     [6]
+│   ├── metrics.csv              [6]
+│   └── plots/                   [6]
+│
+├── analysis/                    [7]
+│   └── sparse_view_analysis.ipynb [7]
+│
+└── paper/                       [8]
+    ├── main.tex                 [8]
+    └── figures/                 [8]

@@ -1,0 +1,36 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+gs-sparse/
+env/
+venv/
+
+# Python wheel/build artifacts
+*.egg-info/
+dist/
+build/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Dataset and generated experiment outputs
+data/raw/
+data/splits/
+experiments/
+results/
+external/gaussian-splatting/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# IDE/editor metadata
+*.swp
+.DS_Store
+.vscode/
+*.sublime-project
+*.sublime-workspace

@@ -1,0 +1,22 @@
+# Base packages
+numpy
+tqdm
+matplotlib
+opencv-python
+pyyaml
+imageio
+scikit-image
+joblib
+plyfile
+pandas
+seaborn
+
+# PyTorch stack 
+torch
+torchvision
+torchaudio
+
+# Gaussian Splatting submodules
+git+https://github.com/graphdeco-inria/diff-gaussian-rasterization.git#egg=diff-gaussian-rasterization
+git+https://gitlab.inria.fr/bkerbl/simple-knn.git#egg=simple-knn
+git+https://github.com/rahul-goel/fused-ssim.git#egg=fused-ssim

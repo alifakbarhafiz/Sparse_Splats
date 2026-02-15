@@ -1,0 +1,21 @@
+name: lego_10_views
+subset:
+  view_count: 10
+  output_dir: data/splits/10_views
+  selection:
+    indices: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]
+training:
+  args:
+    iterations: 15000
+    test_iterations: [7000, 15000]
+    save_iterations: [7000, 15000]
+    optimizer_type: sparse_adam
+    antialiasing: true
+render:
+  iterations: [15000]
+  args:
+    skip_train: true
+    skip_test: false
+    quiet: true
+metrics:
+  subset_label: 10_views

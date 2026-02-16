@@ -94,7 +94,12 @@ def create_view_subset(
     *,
     selection: Optional[Dict] = None,
     extension: str = ".png",
+    full_test_set: bool = True,
 ) -> Dict[str, Optional[str]]:
+    """Create a sparse-view subset. When full_test_set is True (default), train
+    uses only selected views but test/val keep the full lists so all experiments
+    are evaluated on the same held-out test set (PSNR comparable across view counts).
+    """
     raw_data_dir = Path(raw_data_dir)
     subset_dir = Path(subset_dir)
 
@@ -135,11 +140,16 @@ def create_view_subset(
 
     for tf_path in transform_files:
         data = _load_json(tf_path)
-        frames = [
-            frame
-            for frame in data["frames"]
-            if _normalize_frame_name(frame["file_path"]) in selected_set
-        ]
+        is_train = tf_path.name == "transforms_train.json"
+        use_full = full_test_set and not is_train
+        if use_full:
+            frames = list(data["frames"])
+        else:
+            frames = [
+                frame
+                for frame in data["frames"]
+                if _normalize_frame_name(frame["file_path"]) in selected_set
+            ]
         data["frames"] = frames
         target = subset_dir / tf_path.name
         _write_json(target, data)
@@ -166,6 +176,7 @@ def create_subset_views(
     *,
     selection: Optional[Dict] = None,
     extension: str = ".png",
+    full_test_set: bool = True,
 ) -> Dict[str, Optional[str]]:
     return create_view_subset(
         Path(raw_data_dir),
@@ -173,6 +184,7 @@ def create_subset_views(
         view_count,
         selection=selection,
         extension=extension,
+        full_test_set=full_test_set,
     )
 
 
@@ -190,6 +202,7 @@ if __name__ == "__main__":
     parser.add_argument("--strategy", choices=["uniform", "random"], default="uniform")
     parser.add_argument("--seed", type=int)
     parser.add_argument("--extension", type=str, default=".png")
+    parser.add_argument("--no-full-test-set", action="store_true", help="Filter test/val to selected views (metrics not comparable across view counts)")
     args = parser.parse_args()
 
     selection = {
@@ -204,6 +217,7 @@ if __name__ == "__main__":
         view_count=args.view_count,
         selection=selection,
         extension=args.extension,
+        full_test_set=not args.no_full_test_set,
     )
     print(
         f"Subset ready at {metadata['subset_dir']}: {metadata['view_count']} views, "

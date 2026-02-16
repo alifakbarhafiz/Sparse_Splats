@@ -1,0 +1,20 @@
+name: lego_1_views
+subset:
+  view_count: 1
+  output_dir: data/splits/1_views
+  selection:
+    indices: [0]
+training:
+  args:
+    iterations: 15000
+    test_iterations: [7000, 15000]
+    save_iterations: [7000, 15000]
+render:
+  iterations: [15000]
+  args:
+    eval: true          # keep test set so metrics get real PSNR/SSIM/LPIPS (else test_cameras=[] -> NaN)
+    skip_train: true
+    skip_test: false
+    quiet: true
+metrics:
+  subset_label: 1_views

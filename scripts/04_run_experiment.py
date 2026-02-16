@@ -62,6 +62,7 @@ def _run_single_config(
         view_count,
         selection=selection,
         extension=subset_conf.get("extension", ".png"),
+        full_test_set=subset_conf.get("full_test_set", True),
     )
 
     training_conf = dict(config.get("training", {}))

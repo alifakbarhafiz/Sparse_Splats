@@ -23,6 +23,9 @@ experiments/
 results/
 external/gaussian-splatting/
 
+# Downloaded Colab/experiment snapshots
+content/
+
 # Logs and temporary files
 *.log
 *.tmp

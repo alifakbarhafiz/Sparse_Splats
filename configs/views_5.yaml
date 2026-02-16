@@ -12,6 +12,7 @@ training:
 render:
   iterations: [15000]
   args:
+    eval: true          # keep test set so metrics get real PSNR/SSIM/LPIPS (else test_cameras=[] -> NaN)
     skip_train: true
     skip_test: false
     quiet: true

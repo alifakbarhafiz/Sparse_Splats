@@ -9,7 +9,6 @@ training:
     iterations: 15000
     test_iterations: [7000, 15000]
     save_iterations: [7000, 15000]
-    optimizer_type: sparse_adam
 render:
   iterations: [15000]
   args:

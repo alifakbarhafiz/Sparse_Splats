@@ -8,6 +8,8 @@ import shutil
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Set
 
+import numpy as np
+
 
 def _load_json(path: Path) -> Dict:
     with path.open("r", encoding="utf-8") as handle:
@@ -67,6 +69,24 @@ def _choose_views(
         seen.add(idx)
         selected.append(frame_names[idx])
     return selected
+
+
+def _compute_nerf_normalization_from_transforms(transforms_path: Path) -> Dict[str, list]:
+    """Compute NeRF-style scene normalization from full train transforms (same math as
+    getNerfppNorm in gaussian-splatting). Use this so all subsets share one coordinate frame.
+    """
+    data = _load_json(transforms_path)
+    centers = []
+    for frame in data["frames"]:
+        c2w = np.array(frame["transform_matrix"], dtype=np.float64)
+        c2w[:3, 1:3] *= -1  # OpenGL/Blender -> COLMAP (match dataset_readers)
+        centers.append(c2w[:3, 3:4])
+    cam_centers = np.hstack(centers)
+    center = np.mean(cam_centers, axis=1, keepdims=True)
+    diagonal = float(np.max(np.linalg.norm(cam_centers - center, axis=0)))
+    radius = diagonal * 1.1
+    translate = (-center.flatten()).tolist()
+    return {"translate": translate, "radius": radius}
 
 
 def _copy_images(
@@ -157,6 +177,12 @@ def create_view_subset(
         frames_to_copy.extend(frames)
 
     _copy_images(frames_to_copy, raw_data_dir, subset_dir, extension)
+
+    if full_test_set:
+        norm_path = raw_data_dir / "transforms_train.json"
+        if norm_path.exists():
+            nerf_norm = _compute_nerf_normalization_from_transforms(norm_path)
+            _write_json(subset_dir / "nerf_normalization.json", nerf_norm)
 
     return {
         "subset_dir": str(subset_dir),

@@ -1,0 +1,17 @@
+# Base packages (same as requirements.txt; CUDA packages installed from submodules in notebook)
+numpy
+tqdm
+matplotlib
+opencv-python
+pyyaml
+imageio
+scikit-image
+joblib
+plyfile
+pandas
+seaborn
+torch
+torchvision
+torchaudio
+# diff-gaussian-rasterization and simple-knn are installed from external/gaussian-splatting submodules in the notebook
+git+https://github.com/rahul-goel/fused-ssim.git#egg=fused-ssim
